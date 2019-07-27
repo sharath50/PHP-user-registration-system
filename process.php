@@ -1,5 +1,12 @@
-<?php session_start(); unset($_SESSION['user_name']); ?>
+<?php session_start();  ?>
 <?php include('connection.php') ?>
+<?php 
+	if (@$_GET['logout'] == 'true') {
+		header('Location:login.php?message=Please login to your account');
+	}else{
+		header('Location:login.php');
+	}
+?>
 
 <?php 
 
@@ -16,13 +23,6 @@ function check_input($data){
 	return $data;
 }
 
-if (@$_GET['logout'] == 'true') {
-	session_destroy();
-	unset($_SESSION['user_name']);
-	header('Location:login.php?message=Please login to your account');
-}else {
-	header('Location:login.php?message=Please login to your account');
-}
 
 if (isset($_POST['register'])) {
 	if (empty($_POST['uname'])) {
@@ -46,10 +46,10 @@ if (isset($_POST['register'])) {
 
 
 	if (in_array('no user' , $reg_error_arr)) {
-		$return = 'Location:index.php?filled=All Fields Must Be Filled';
+		$return = 'Location:register.php?filled=All Fields Must Be Filled';
 	}
 	if (in_array('no match' , $reg_error_arr)){
-		$return = 'Location:index.php?filled=All Fields Must Be Filled&match=Password Not Matching';
+		$return = 'Location:register.php?filled=All Fields Must Be Filled&match=Password Not Matching';
 	}
 
 
@@ -78,7 +78,7 @@ if (isset($_POST['login'])) {
 	}
 
 	if (in_array('no user' , $log_error_arr) | in_array('no password' , $log_error_arr)) {
-		$return = 'Location:login.php?filled=All fields must be filled';
+		header('Location:login.php?filled=All fields must be filled');
 	}
 	else {
 		$sql = "SELECT * FROM web_users WHERE user_name = '{$user_name}' AND user_pass = '{$user_password}';";
@@ -90,13 +90,12 @@ if (isset($_POST['login'])) {
 		if ($user == $user_name && $pass == $user_password){
 			$_SESSION['user_name'] = $user_name;
 			// $random_id = rand(100,999);
-			header('Location:welcome.php?message=Welcome..! ' . $user_name);
+			header('Location:index.php?message=Welcome..! ' . $user_name);
 		}else {
 			header('Location:login.php?filled=Sorry..! username or password is incorrect...');
 		}
 	}
 }
-
 
 
 ?>

@@ -1,4 +1,4 @@
-<?php session_start(); unset($_SESSION['user_name']);?>
+<?php session_start(); unset($_SESSION['user_name']); session_destroy();?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +38,7 @@
 							</div>
 							<button class="btn btn-sm mt-4 btn-info btn-block" type="submit" name="login">Log In</button>
 							<div class="form-group">
-							<a href="index.php" class="btn btn-sm mt-4 btn-success btn-block">Register Here</a>
+							<a href="register.php" class="btn btn-sm mt-4 btn-success btn-block">Register Here</a>
 							<label class="text-success">Don't have an Account..?</label>
 							</div>
 						</form>
